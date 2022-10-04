@@ -1,0 +1,29 @@
+---
+title: "Case Study 1"
+author: |
+    | Hang Tian
+    | UB PERSON ID: 50413372
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(42) # seed for any random generation
+```
+# 1. Calculating mean value of one column in iris
+```{r}
+data(iris)
+library(ggplot2)
+mean_value=mean(iris$Petal.Length)
+mean_value
+```
+# 2. Make a histogram of Petal.length
+```{r hist, fig.align='center', out.height='70%', out.width='70%'}
+ggplot(iris,aes(Petal.Length))+
+  geom_histogram(binwidth=0.3,aes(fill=Species),alpha=0.8,position='identity')+
+  xlab("Petal Length") +  
+  ylab("Frequency") + 
+  ggtitle("Histogram of Petal Length")+
+  theme_bw()
+```
+
