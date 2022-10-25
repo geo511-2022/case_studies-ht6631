@@ -29,8 +29,12 @@ ggplot(temp,aes(year,mean))+
   ggtitle('CO2 Mean ~ Year plot')
 ```
 ```{r}
-knitr::kable(temp,'simple')
+library(dplyr)
+processed=temp%>%arrange(desc(mean))%>%select(year,mean)%>%slice(1:5)
+knitr::kable(processed,'simple')
 ```
+
+
 ```{r}
 # rmarkdown::render("week_08/case_study_08.Rmd",output_format = "all")
 ```
