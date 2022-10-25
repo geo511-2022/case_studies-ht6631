@@ -1,7 +1,38 @@
 ---
 title: "Case Study 08"
-author: Your Name
+author: Hang Tian
 date: August 1, 2020
-output: github_document
+output:
+  html_document: default
+  github_document: default
+  powerpoint_presentation: default
+  word_document: default
 ---
- 
+
+```{r,echo = FALSE}
+setwd("~/Semester files/GEO 511/case_studies-ht6631/week_08")
+```
+
+```{r}
+library(ggplot2)
+suppressPackageStartupMessages(library(tidyverse))
+dataurl="ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_annmean_mlo.txt"
+temp=read_table(dataurl, skip=57,col_names = c('year','mean','unc'))
+```
+
+```{r, out.width='80%'}
+ggplot(temp,aes(year,mean))+
+  geom_line()+
+  theme_bw()+
+  xlab('Year')+
+  ylab('CO2 Mean Value')+
+  ggtitle('CO2 Mean ~ Year plot')
+```
+```{r}
+knitr::kable(temp,'simple')
+```
+```{r}
+# rmarkdown::render("week_08/case_study_08.Rmd",output_format = "all")
+```
+
+
