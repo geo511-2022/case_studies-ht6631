@@ -1,7 +1,7 @@
 Case Study 09
 ================
 Hang Tian
-2022-11-01
+2022-11-03
 
 # 1. Import packages and get data
 
@@ -75,6 +75,7 @@ region=st_bbox(storm_cleaned)
 
 ``` r
 ggplot(world)+
+  geom_sf()+
   stat_bin2d(data=storm_cleaned,aes(y=st_coordinates(storm_cleaned)[,2], x=st_coordinates(storm_cleaned)[,1]),bins=100)+
   facet_wrap(~decade)+
   scale_fill_distiller(palette="YlOrRd", trans="log", direction=-1, breaks = c(1,10,100,1000))+
