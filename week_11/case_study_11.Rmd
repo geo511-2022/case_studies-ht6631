@@ -47,7 +47,7 @@ points=foreach(i=1:4,.combine=rbind) %dopar%
   {buff%>%filter(variable==unique(buff$variable)[i])%>%st_sample(size=.$value)%>%st_as_sf()%>%mutate(variable=unique(buff$variable)[i])}
 ```
 
-# 3. Mpaview
+# 3. Mapview
 ```{r}
 mapview(points,zcol='variable',cex=1,alpha=0)
 ```
