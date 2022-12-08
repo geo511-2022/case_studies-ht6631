@@ -1,7 +1,28 @@
 ---
-title: "Case Study 07"
-author: Your Name
-date: August 1, 2020
-output: github_document
+title: "Case Study 7"
+author: |
+    | Hang Tian
+    | UB PERSON ID: 50413372
+date: "`r Sys.Date()`"
+output: pdf_document
+font: 13pt
 ---
- 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(42) # seed for any random generation
+```
+
+# 1. Import packages and retry the code
+```{r}
+library(ggplot2)
+library(spData)
+library(reprex)
+
+data(world)
+ggplot(world,aes(x=gdpPercap, y=continent, color=continent))+
+   geom_density(alpha=0.5,color=F)
+# Where did I make this wrong?
+reprex(venue='gh')
+```
+
+

@@ -1,0 +1,55 @@
+---
+title: "Case Study 2"
+author: |
+    | Hang Tian
+    | UB PERSON ID: 50413372
+date: "`r Sys.Date()`"
+output: pdf_document
+font: 16pt
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(42) # seed for any random generation
+```
+
+# 1. Downloading data
+```{r}
+library(ggplot2)
+suppressPackageStartupMessages(library(tidyverse))
+dataurl="https://data.giss.nasa.gov/tmp/gistemp/STATIONS/tmp_USW00014733_14_0_1/station.csv"
+temp=read_csv(dataurl,
+              skip=3, #skip the first line which has column names
+              na="999.90", # tell R that 999.90 means missing in this dataset
+              col_names = c("YEAR","JAN","FEB","MAR", # define column names 
+                            "APR","MAY","JUN","JUL",  
+                            "AUG","SEP","OCT","NOV",  
+                            "DEC","DJF","MAM","JJA",  
+                            "SON","metANN"),
+              show_col_types = FALSE)
+temp_summer=temp[c('YEAR','JJA')]
+```
+\newpage
+# 2. Make a flow chart
+```{r}
+plt=ggplot(temp_summer,aes(YEAR,JJA))+
+  geom_line()+
+  theme_bw()+
+  labs(title='Mean Summer Temperautres in Buffalo, NY',
+      subtitle='Summerincludes June, July, and August\n
+      Data from the Global Historical Climate Network\n
+      Red line is a LOESS smooth',
+      x='Year',
+      y='Mean Summer Temperatures')+
+  theme(title=element_text(size=18),axis.text=element_text(size=14))+
+  geom_smooth(method='loess',formula='y~x',color='red')
+suppressWarnings(print(plt))
+```
+```{r}
+ggsave(  filename = "Mean Summer Temperatures in Buffalo.png",
+  width = 17,         
+  height = 9,    
+  units = "in",        
+  dpi = 300            
+)
+```
+

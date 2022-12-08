@@ -1,0 +1,61 @@
+---
+title: "Case Study 5"
+author: |
+    | Hang Tian
+    | UB PERSON ID: 50413372
+date: "`r Sys.Date()`"
+output: pdf_document
+font: 12pt
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(42) # seed for any random generation
+```
+
+# 1. Import packages and get data
+```{r}
+library(spData)
+library(tmap)
+library(sf)
+library(tidyverse)
+library(units)
+
+#load 'world' data from spData package
+data(world)  
+# load 'states' boundaries from spData package
+data(us_states)
+albers="+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+
+```
+
+# 2. Target polygons
+```{r}
+world=st_transform(world,albers)
+us_states=st_transform(us_states,albers)
+NY=us_states[17,]
+Canada=world%>%filter(name_long == 'Canada')
+```
+
+# 3. Buffering
+```{r}
+distance=set_units(10,km)
+Canada_buffer=st_buffer(Canada,distance)
+
+```
+
+# 4. Results
+```{r,out.width='60%',fig.align='center'}
+intersected=st_intersection(NY,Canada_buffer)
+ggplot()+
+  geom_sf(data=NY)+
+  geom_sf(data=intersected,fill='red')+
+  xlab('Longitude')+
+  ylab('Latitude')+
+  ggtitle('Be ware of Canadians')+
+  theme_bw()
+area_cal=st_area(intersected)
+units(area_cal)=as_units('km^2')
+
+area_cal
+```
+Area result is 3495.19 km^2.

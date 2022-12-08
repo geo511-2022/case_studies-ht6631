@@ -1,0 +1,129 @@
+---
+title: \LARGE\textbf{Package "raster" introduction}
+author: \large\textbf{Hang Tian}
+date: "`r Sys.Date()`" 
+output: 
+  pdf_document:
+    latex_engine: xelatex
+header-includes:
+- \usepackage[fontsize=14pt]{scrextend}
+- \usepackage{color}
+---
+# 1. "Intro"
+
+```{r}
+# install.packages('raster')
+library(raster)
+```
+
+**What does the package do?**
+
+**Package description**: "Reading, writing, manipulating, analyzing and modeling of spatial data. The package implements basic and high-level functions for raster data and for vector data operations such as intersections. "
+
+**Basically** there are two types of GIS data: vector & raster. 
+
+**Vector**, AKA shapefile, includes points, lines and polygons representing ground items while containing information in attribute table.
+
+**Raster**, more like digital images nowadays with same scale pixels but gives more information like which coordinate reference system it's using, where its pixels locate.
+
+**The "raster" package**, is designed for reading-processing-writing raster data in R.
+\newpage
+
+
+
+# 2. "Author(s)"
+**Robert J. Hijmans et al.**  Maintainer: Robert J. Hijmans
+
+Robert J. Hijmans, professor at the department of Environmental Science and Policy at University of California Davis, CA, US.
+
+```{r robert, echo=FALSE, fig.cap="Robert profile", out.width = '100%'}
+knitr::include_graphics("robert.png")
+```
+
+```{r orcid, echo=FALSE, fig.cap="Robert link on ORCID", out.width = '90%'}
+knitr::include_graphics("orcid.png")
+```
+\newpage
+# 3. "Opening, plotting rater data"
+
+```{r}
+# Read a raster layer
+test1=raster('tmax_stack.tif',band=1)
+# Read raster with multiple bands
+test2=stack('tmax_stack.tif')
+class(test1)
+class(test2)
+```
+```{r test, echo=FALSE, fig.cap="What you'll see in your Rsutdio workspace", out.width = '90%'}
+knitr::include_graphics("test.png")
+```
+```{r,dev='png',fig.dim=c(4,5),fig.align='center',fig.cap="plot the raster"}
+# Or if you have already saved your work space before
+load("~/Desktop/WeatherRasters.RData")
+# One trick here is before you save work space, 
+# remember to run sample_raster=readAll(sample_raster) 
+# to actually read it in memory
+# Selecting the 1st band from raster stack
+sample_raster=tmax[[1]]
+all.equal(sample_raster,test1)
+plot(sample_raster)
+```
+```{r,message=FALSE}
+library(sf,sp)
+# See CRS (coordinate reference system) information of our data
+# You can also use 'crs(sample_raster)' which is a function given by raster
+st_crs(sample_raster)$proj4string
+extent(sample_raster)
+```
+
+# 4. "Time for some bold actions!"
+
+Besides of simply reading and creating raster data in R, raster package gives many categories of functions helps you do raster processing:
+
+
+\large\textbf{a. Changing the spatial extent}\normalsize
+```{r,dev='png',fig.dim=c(5,4),fig.align='center',fig.cap="transposed raster"}
+sr_transposed=t(sample_raster)
+plot(sr_transposed)
+```
+\newpage
+
+\large\textbf{b. Raster algebra}\normalsize
+```{r,dev='png',fig.dim=c(3.8,3.8),fig.align='center',fig.cap="sample raster - sample raster"}
+sr_zero=sample_raster-sample_raster
+plot(sr_zero)
+```
+
+\large\textbf{c. Cell based computation}\normalsize
+```{r,dev='png',fig.dim=c(3.8,3.8),fig.align='center',fig.cap="Squared value raster"}
+sr_squared=calc(sample_raster,function(x)x^2-x)
+plot(sr_squared)
+```
+
+And other functions:
+
+\large\textbf{d. Data type conversion}\normalsize
+```{r,dev='png',fig.dim=c(4,4),fig.align='center',fig.cap="Raster to Polygon"}
+sr_polygon=rasterToPolygons(sample_raster,na.rm=TRUE)
+plot(sr_polygon)
+```
+
+\large\textbf{e. Write your raster}\normalsize
+```{r}
+writeRaster(sample_raster,filename='sample_raster.tif',
+            format='GTiff',overwrite=TRUE)
+```
+
+And more...
+
+Explore more about using this package at:
+
+\textcolor{blue}{https://cran.r-project.org/web/packages/raster/raster.pdf}
+
+Besides, remember you could always use ?*function_name*() to view the help file.
+
+
+  
+  
+  
+  

@@ -1,7 +1,61 @@
 ---
-title: "Case Study 06"
-author: Your Name
-date: August 1, 2020
-output: github_document
+title: "Case Study 6"
+author: |
+    | Hang Tian
+    | UB PERSON ID: 50413372
+date: "`r Sys.Date()`"
+output: pdf_document
+font: 13pt
 ---
- 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(42) # seed for any random generation
+```
+
+# 1. Import packages and get data
+```{r}
+library(raster)
+library(sp)
+library(spData)
+library(tidyverse)
+library(sf)
+library(ncdf4)
+library(geodata)
+
+data(world)
+download.file("https://crudata.uea.ac.uk/cru/data/temperature/absolute.nc","crudata.nc")
+tmean=raster("crudata.nc")
+```
+
+# 2. Prepare country polygon data
+```{r}
+world=world%>%filter(name_long!='Antarctica')
+world_sp=as(world,'Spatial')
+```
+
+#3. Prepare climate data
+```{r}
+plot(tmean)
+#There are 12 layers in this data indicating 12 months.
+tmax_annual=max(tmean)
+plot(tmax_annual)
+names(tmax_annual)='tmax'
+tmax_country=extract(tmax_annual,world,fun=max,na.rm=T,small=T,sp=T)%>%st_as_sf()
+```
+
+#4. GGplot
+```{r}
+ggplot()+
+  geom_sf(data=tmax_country,aes(fill=tmax))+
+  scale_fill_viridis_c(name="Annual\nMaximum\nTemperature (C)")+
+  theme(legend.position = 'bottom')
+
+hottest_continents=tmax_country%>%
+  select(c('name_long','continent','tmax'))%>%
+  group_by(continent)%>%
+  top_n(1,tmax)%>%
+  arrange(desc(tmax))%>%
+  st_set_geometry(NULL)
+hottest_continents
+```
+

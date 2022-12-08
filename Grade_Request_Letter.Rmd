@@ -1,0 +1,42 @@
+---
+title: "Grade Request Letter"
+author: Hang Tian
+output: pdf_document
+---
+Hi Dr. Wilson, \newline
+\newline
+Here's the grade request letter for Hang Tian.
+
+# Key concepts and techniques learnt
+To be honest, I didn't expect to learn much at the very beginning of this course because I've already used R for long time, and I could always figure out a way through bugs and errors. \newline
+\newline
+However, the well-structured course and some new things I learnt did refresh me and gave a boost to my R skills. For example, the parallel computing concept and advanced ggplot techniques surprised me and really helped me a lot when I was dealing with data computing issues and plotings while doing research or working on homework. Moreover, version control using git and github is a great fun. It's also proved to be useful when I'm doing final paper with my project members on another course. Besides, plotting with ggplot2 package does gives me great and decent plots that could be used even for publications later. 
+
+# An impressive task
+I have to say, there were many great classes and tasks introduced, like color brewers for plots, satellite remote sensing data resources, as well as git version control. But the most impressive task I've went through would be parallel computing with R, this helps a lot when I tried to compute data on other big data sets.
+
+# Score on Datacamp assessment
+I remember it was 139/200 or a close number.
+
+# Project link
+https://geo511-2022.github.io/final_project-yzhao72-hangtian/ \newline
+And you could see link to this page in the "read me" part of our project repository.
+
+# Grade request
+Through this semester, I completed: \newline
+12 class tasks; \newline
+11 case studies c(1:9,11,12) (case study 10 whose topic is about raster data not included because I just half done that); \newline
+3 times of team leader (though just gave presentation 1 time); \newline
+9 of the data camp courses (all); \newline
+1 time of resource presentation; \newline
+1 completed semester project coporating with Yixuan Zhao. (Contribution of either one of us could be seen in the "read me" part.)
+\newline
+\newline
+To conclude, this meet the 'A' grade threshold and I request a grade of 'A'.
+\newline
+\newline
+\newline
+\newline
+Best, \newline
+Hang
+

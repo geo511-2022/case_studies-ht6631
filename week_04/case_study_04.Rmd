@@ -1,22 +1,66 @@
 ---
-title: "Case Study 04"
-author: Your Name
-date: August 1, 2020
-output: github_document
+title: "Case Study 4"
+author: |
+    | Hang Tian
+    | UB PERSON ID: 50413372
+date: "`r Sys.Date()`"
+output: pdf_document
+font: 13pt
 ---
-
-## First Header
-
-Comments
-
-```{r}
-summary(cars)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(42) # seed for any random generation
 ```
 
-## Second Header
+# 1. Import packages and get data
+```{r}
+library(tidyverse)
+library(nycflights13)
+library(sp)
+library(sf)
 
-Comments
+data(flights)
+str(flights)
+data(airports)
+str(airports)
+```
+
+# 2. Find names of airports within NYC
+```{r}
+#NYC shapefile
+nyc=st_read('nyc.shp')
+nyc_crs=st_crs(nyc)
+#Airports shapefile
+airports=st_as_sf(airports,coords=c('lon','lat'))
+airports=st_set_crs(airports,nyc_crs)
+#Logic choose
+is_in=st_within(airports,nyc)
+is_in=as.numeric(is_in)
+bool=!is.na(is_in)
+airports_nyc=airports[bool,]
+#Names for airports within NYC
+names=airports_nyc$faa
+names
+```
+
+#3. Process data and find result
+```{r}
+farthest_distance_df <- flights %>%
+  filter(origin %in% names)%>%
+  group_by(origin)%>%
+  summarise(distance=max(distance))%>%
+  arrange(desc(distance))
+farthest_distance_df
+```
+Since 4983>1620, we could just find that air line.
 
 ```{r}
-plot(pressure)
+result <- left_join(farthest_distance_df[1,],flights,by=c("origin","distance")) %>% 
+  select(c('origin','distance','dest'))%>%
+  unique()%>%
+  left_join(airports,by=c('dest'='faa'))%>%
+  select(c("dest",'name'))
+
+result
 ```
+
